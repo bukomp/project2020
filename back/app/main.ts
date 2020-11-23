@@ -1,30 +1,21 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import mongoose from 'mongoose';
+import mariadb from 'mariadb';
 import dotenv from 'dotenv';
 
 // Reeds .env file and creates global variables
 dotenv.config();
 import { CONFIG } from './utils/config';
+import * as db from './utils/db';
 
 // Routers
 import { mainRouter } from './controllers/main.controller';
 import { userRouter } from './controllers/user.controller';
 
-async function startServer() {
+async function startServer(): Promise<void> {
   console.log('\nInitializing server...');
 
-  await mongoose
-    .connect(CONFIG.DB_URL, {
-      useNewUrlParser: true,
-      useUnifiedTopology: true,
-      useFindAndModify: false,
-    })
-    .catch((err) => {
-      console.log('There was an issue connecting to db');
-      console.error(err);
-      process.exit();
-    });
+  db.initDB();
 
   console.log('\nDataBase connected!');
 

@@ -1,5 +1,7 @@
 export interface ServerConfig {
-  DB_URL: string;
+  DB_HOST: string;
+  DB_USER: string;
+  DB_PWD: string;
   PORT: number;
 
   /**
