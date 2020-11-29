@@ -5,21 +5,21 @@ export interface DataBaseObject {
 export interface User extends DataBaseObject {
   username: string;
   email: string;
-  passwordHash?: string;
+  password?: string;
 }
 
 export interface Post extends DataBaseObject {
-  userId: string;
+  user_id: string;
   likes: number;
-  timestamp: string;
-  fileLink: string;
+  created_at: Date | string;
+  file_link: string;
   filters: string;
 }
 
 export interface Comment extends DataBaseObject {
-  postId: string;
-  userId: string;
+  post_id: string;
+  user_id: string;
   likes: number;
-  timestamp: string;
-  comment: string;
+  created_at: Date | string;
+  text: string;
 }

@@ -7,6 +7,7 @@ import { checkUser } from '../middlewares/user.middleware';
 
 import { Router } from 'express';
 import { UserToken } from '../models/token.interfaces';
+import { User } from '../models/general.interfaces';
 
 const userRouter = Router();
 
@@ -20,7 +21,8 @@ userRouter.get('/', checkToken, checkUser, async (req, res) => {
     const decodedToken: UserToken = tokenService.decodeToken(token);
 
     const user = await userService.getById(decodedToken.userId);
-    delete user.passwordHash;
+    delete user.password;
+    delete user.id;
 
     return res.status(200).json({
       token: tokenService.updateToken(token),
@@ -45,7 +47,7 @@ userRouter.put('/update', checkToken, checkUser, async (req, res) => {
     const user = await userService.getById(decodedToken.userId);
 
     // Verifying password
-    const passwordIsVerified = passwordService.verifyPassword(body.currentPassword, user.passwordHash);
+    const passwordIsVerified = passwordService.verifyPassword(body.currentPassword, user.password);
 
     // Password was not verified
     if (!passwordIsVerified) {
@@ -69,17 +71,16 @@ userRouter.put('/update', checkToken, checkUser, async (req, res) => {
       return res.status(400).json({ error: 'Password must be at least 3 characters long' });
     }
 
-    const fieldsToUpdate = {
+    const fieldsToUpdate: User = {
       username: body.username,
-      firstName: body.firstName,
-      lastName: body.lastName,
       email: body.email,
-      points: body.points,
-      co2: body.co2,
-      passwordHash: passwordService.encryptPassword(body.password),
+      password: passwordService.encryptPassword(body.password),
     };
 
     const updatedUser = await userService.updateUser(decodedToken.userId, fieldsToUpdate);
+
+    delete updatedUser.password;
+    delete updatedUser.id;
 
     return res.status(200).json({
       token: tokenService.updateToken(token),

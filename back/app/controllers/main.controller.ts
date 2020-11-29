@@ -8,6 +8,7 @@ import { checkToken } from '../middlewares/token.middleware';
 import { checkUser } from '../middlewares/user.middleware';
 
 import { UserToken } from '../models/token.interfaces';
+import { User } from '../models/general.interfaces';
 
 const mainRouter = Router();
 
@@ -48,7 +49,7 @@ mainRouter.post('/login', async (req, res) => {
         });
       }
 
-      return res.status(200).json({ token: tokenService.updateToken(token) });
+      return res.status(200).json({ token: tokenService.updateToken(token), user });
     } else {
       if (!body.username && !body.email) {
         return res.status(403).json({
@@ -60,7 +61,7 @@ mainRouter.post('/login', async (req, res) => {
 
       if (user) {
         // Verifying password
-        const passwordIsVerified = passwordService.verifyPassword(body.password, user.passwordHash);
+        const passwordIsVerified = passwordService.verifyPassword(body.password, user.password);
 
         // Password was not verified
         if (!passwordIsVerified) {
@@ -73,6 +74,7 @@ mainRouter.post('/login', async (req, res) => {
 
         return res.status(200).json({
           token: newToken,
+          user,
         });
       } else {
         return res.status(404).json({
@@ -123,23 +125,20 @@ mainRouter.post('/register', async (req, res) => {
       });
     }
 
-    let newUser: any = {
+    let newUser: User = {
       username: body.username,
-      firstName: body.firstName,
-      lastName: body.lastName,
       email: body.email,
-      points: 0,
-      passwordHash: passwordService.encryptPassword(body.password),
-      dateOfRegistration: new Date(),
-      cars: [],
-      events: [],
+      password: passwordService.encryptPassword(body.password),
     };
 
     newUser = await userService.create(newUser);
 
     const token = tokenService.generateToken(newUser.id);
 
-    return res.status(200).json({ token });
+    delete newUser.password;
+    delete newUser.id;
+
+    return res.status(200).json({ token, user: newUser });
   } catch (error) {
     console.error('Error happened in /user/login');
     res.status(500).send(error);
