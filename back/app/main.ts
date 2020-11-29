@@ -7,6 +7,7 @@ import dotenv from 'dotenv';
 dotenv.config();
 import { CONFIG } from './utils/config';
 import * as db from './utils/db';
+import * as postService from './services/db/post.service';
 
 // Routers
 import { mainRouter } from './controllers/main.controller';
@@ -18,6 +19,13 @@ async function startServer(): Promise<void> {
   db.initDB();
 
   console.log('\nDataBase connected!');
+
+  await postService.create({
+    file_link: 'test',
+    likes: 0,
+    user_id: 'test',
+    filters: 'test',
+  });
 
   const app = express();
 

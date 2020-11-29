@@ -11,7 +11,7 @@ export interface User extends DataBaseObject {
 export interface Post extends DataBaseObject {
   user_id: string;
   likes: number;
-  created_at: Date | string;
+  created_at?: Date | string;
   file_link: string;
   filters: string;
 }
@@ -20,6 +20,6 @@ export interface Comment extends DataBaseObject {
   post_id: string;
   user_id: string;
   likes: number;
-  created_at: Date | string;
+  created_at?: Date | string;
   text: string;
 }
