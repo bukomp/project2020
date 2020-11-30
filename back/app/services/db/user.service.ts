@@ -4,7 +4,7 @@ import { db } from '../../utils/db';
 export async function create(user: User): Promise<User> {
   try {
     await db.query(
-      `INSERT INTO user (username, email, password) VALUES (${user.username}, ${user.email}, ${user.password});`
+      `INSERT INTO user (username, email, password) VALUES ('${user.username}', '${user.email}', '${user.password}');`
     );
     return await findUserByUsernameOrEmail(user.username);
   } catch (error) {
@@ -18,8 +18,8 @@ export async function getById(id: string): Promise<User | undefined> {
     return await db.query(`
       SELECT *
       FROM user
-      WHERE id = ${id};
-      `)[0];
+      WHERE id = '${id}';
+    `)[0];
   } catch (error) {
     console.error('Error happened in getById function');
     throw error;
@@ -32,13 +32,13 @@ export async function findUserByUsernameOrEmail(username?: string, email?: strin
       return await db.query(`
       SELECT *
       FROM user
-      WHERE username = ${username};
+      WHERE username = '${username}';
       `)[0];
     } else if (email) {
       return await db.query(`
       SELECT *
       FROM user
-      WHERE email = ${email};
+      WHERE email = '${email}';
       `)[0];
     } else {
       return undefined;

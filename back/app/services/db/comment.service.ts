@@ -1,11 +1,11 @@
-import { Post } from './../../models/general.interfaces';
+import { Comment } from './../../models/general.interfaces';
 import { db } from '../../utils/db';
 
-export async function create(post: Post): Promise<Post> {
+export async function create(comment: Comment): Promise<Comment> {
   try {
     const query = await db.query(`
-      INSERT INTO post (user_id,file_link,filters,likes) 
-      VALUES ('${post.user_id}','${post.file_link}','${post.filters}',0);
+      INSERT INTO comment (post_id,user_id,likes,text) 
+      VALUES ('${comment.post_id}','${comment.user_id}',0,'${comment.text}');
     `);
     return await getById((query[0] as any) as string);
   } catch (error) {
@@ -14,25 +14,25 @@ export async function create(post: Post): Promise<Post> {
   }
 }
 
-export async function getById(id: string): Promise<Post | undefined> {
+export async function getById(id: string): Promise<Comment | undefined> {
   try {
     const query = await db.query(`
     SELECT *
-    FROM post
+    FROM comment
     WHERE id = '${id}';
   `);
 
-    return query[0][0] as Post;
+    return query[0][0] as Comment;
   } catch (error) {
     console.error('Error happened in getById function');
     throw error;
   }
 }
 
-export async function updateLikes(id: string, likes: number): Promise<Post | undefined> {
+export async function updateLikes(id: string, likes: number): Promise<Comment | undefined> {
   try {
     await db.query(`
-      UPDATE post
+      UPDATE comment
       SET likes = '${likes}'
       WHERE id = '${id}';
     `);
