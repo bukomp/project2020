@@ -1,13 +1,11 @@
 import * as userService from '../services/db/user.service';
 import * as tokenService from '../services/token.service';
-import * as passwordService from '../services/password.service';
 
 import { checkToken } from '../middlewares/token.middleware';
 import { checkUser } from '../middlewares/user.middleware';
 
 import { Router } from 'express';
 import { UserToken } from '../models/token.interfaces';
-import { User } from '../models/general.interfaces';
 
 const userRouter = Router();
 

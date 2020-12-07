@@ -10,4 +10,5 @@ export interface ServerConfig {
   NODE_ENV: string;
   SECRET: string;
   TOKEN_ALIVE_HOURS: number;
+  PATH_TO_STORE_IMAGES: string;
 }

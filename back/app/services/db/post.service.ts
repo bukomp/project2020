@@ -29,6 +29,21 @@ export async function getById(id: string): Promise<Post | undefined> {
   }
 }
 
+export async function get(select: number, skip: number): Promise<Post[] | undefined> {
+  try {
+    const query = await db.query(`
+    SELECT *
+    FROM post
+    LIMIT ${skip}, ${select};
+  `);
+
+    return query[0][0] as Post[];
+  } catch (error) {
+    console.error('Error happened in getById function');
+    throw error;
+  }
+}
+
 export async function updateLikes(id: string, likes: number): Promise<Post | undefined> {
   try {
     await db.query(`

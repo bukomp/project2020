@@ -8,4 +8,5 @@ export const CONFIG: ServerConfig = {
   NODE_ENV: process.env.NODE_ENV,
   SECRET: process.env.SECRET,
   TOKEN_ALIVE_HOURS: +process.env.TOKEN_ALIVE_HOURS,
+  PATH_TO_STORE_IMAGES: process.env.PATH_TO_STORE_IMAGES,
 };

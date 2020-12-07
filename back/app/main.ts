@@ -11,6 +11,7 @@ import * as db from './utils/db';
 // Routers
 import { mainRouter } from './controllers/main.controller';
 import { userRouter } from './controllers/user.controller';
+import { postRouter } from './controllers/post.controller';
 
 async function startServer(): Promise<void> {
   console.log('\nInitializing server...');
@@ -36,14 +37,11 @@ async function startServer(): Promise<void> {
     }
   });
 
-  // *** Middleware ***
-
-  // TODO: Create middleware for user token checking
-
-  // ******************
-
   // *** Controllers ***
-  // !every route must contain checkToken() middleware, except login/registration routes
+
+  app.use('/post', postRouter);
+  app.use('/user', userRouter);
+  //app.use('/comment', commentRouter);
 
   // ***************
 
