@@ -29,6 +29,21 @@ export async function getById(id: string): Promise<Comment | undefined> {
   }
 }
 
+export async function getByPostId(id: string): Promise<Comment[] | undefined> {
+  try {
+    const query = await db.query(`
+    SELECT *
+    FROM comment
+    WHERE post_id = '${id}';
+  `);
+
+    return query[0][0] as Comment[];
+  } catch (error) {
+    console.error('Error happened in getById function');
+    throw error;
+  }
+}
+
 export async function updateLikes(id: string, likes: number): Promise<Comment | undefined> {
   try {
     await db.query(`

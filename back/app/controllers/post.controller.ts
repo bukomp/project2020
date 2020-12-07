@@ -35,13 +35,11 @@ postRouter.post('/', checkToken, checkUser, upload.single('image'), async (req, 
 
     const decodedToken: UserToken = tokenService.decodeToken(token);
 
-    const user = await userService.getById(decodedToken.userId);
-
     const post = await postService.create({
       file_link: req.file.path,
       filters: body.filters,
       likes: 0,
-      user_id: user.id,
+      user_id: decodedToken.userId,
     });
 
     return res.status(200).json({

@@ -1,6 +1,5 @@
 import express, { json } from 'express';
 import cors from 'cors';
-import mariadb from 'mariadb';
 import dotenv from 'dotenv';
 
 // Reeds .env file and creates global variables
@@ -12,6 +11,7 @@ import * as db from './utils/db';
 import { mainRouter } from './controllers/main.controller';
 import { userRouter } from './controllers/user.controller';
 import { postRouter } from './controllers/post.controller';
+import { commentRouter } from './controllers/comment.controller';
 
 async function startServer(): Promise<void> {
   console.log('\nInitializing server...');
@@ -41,7 +41,7 @@ async function startServer(): Promise<void> {
 
   app.use('/post', postRouter);
   app.use('/user', userRouter);
-  //app.use('/comment', commentRouter);
+  app.use('/comment', commentRouter);
 
   // ***************
 
