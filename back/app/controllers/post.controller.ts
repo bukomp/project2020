@@ -57,17 +57,20 @@ postRouter.get('/', async (req, res) => {
   const body = req.body;
 
   try {
-    const list = (await postService.get(20, +query.skip || 0)).map((post) => {
+    const list = await postService.get(20, +query.skip || 0);
+
+    for (const post of list) {
       delete post.file_link;
-      delete post.user_id;
-      return post;
-    });
+      post.user_id = (await userService.getById(post.user_id)).username;
+    }
+
     return res.status(200).json({
       list,
     });
   } catch (error) {
+    console.log(error);
     console.error('Error happened in /post/(get)');
-    res.status(500).send(error);
+    res.status(500).json({ error });
   }
 });
 

@@ -49,6 +49,8 @@ mainRouter.post('/login', async (req, res) => {
         });
       }
 
+      delete user.password;
+
       return res.status(200).json({ token: tokenService.updateToken(token), user });
     } else {
       if (!body.username && !body.email) {
@@ -71,6 +73,8 @@ mainRouter.post('/login', async (req, res) => {
         }
 
         const newToken: string = tokenService.generateToken(user.id);
+
+        delete user.password;
 
         return res.status(200).json({
           token: newToken,
@@ -140,7 +144,7 @@ mainRouter.post('/register', async (req, res) => {
 
     return res.status(200).json({ token, user: newUser });
   } catch (error) {
-    console.error('Error happened in /user/login');
+    console.error('Error happened in /user/register');
     res.status(500).send(error);
   }
 });

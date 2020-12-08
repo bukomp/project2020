@@ -37,7 +37,7 @@ export async function get(select: number, skip: number): Promise<Post[] | undefi
     LIMIT ${skip}, ${select};
   `);
 
-    return query[0][0] as Post[];
+    return query[0] as Post[];
   } catch (error) {
     console.error('Error happened in getById function');
     throw error;

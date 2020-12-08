@@ -15,11 +15,12 @@ export async function create(user: User): Promise<User> {
 
 export async function getById(id: string): Promise<User | undefined> {
   try {
-    return await db.query(`
+    const query = await db.query(`
       SELECT *
       FROM user
       WHERE id = '${id}';
-    `)[0];
+    `);
+    return query[0][0] as User;
   } catch (error) {
     console.error('Error happened in getById function');
     throw error;
@@ -29,17 +30,21 @@ export async function getById(id: string): Promise<User | undefined> {
 export async function findUserByUsernameOrEmail(username?: string, email?: string): Promise<User | undefined> {
   try {
     if (username) {
-      return await db.query(`
+      return (
+        await db.query(`
       SELECT *
       FROM user
       WHERE username = '${username}';
-      `)[0];
+      `)
+      )[0][0] as User;
     } else if (email) {
-      return await db.query(`
+      return (
+        await db.query(`
       SELECT *
       FROM user
       WHERE email = '${email}';
-      `)[0];
+      `)
+      )[0][0] as User;
     } else {
       return undefined;
     }
