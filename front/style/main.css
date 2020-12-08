@@ -1,0 +1,15 @@
+#main {
+  min-height: calc(100vh - 100px);
+
+  background-color: green;
+}
+
+header {
+  height: 100px;
+  padding: 0 30%;
+}
+
+.center {
+  max-width: 608px;
+  margin: auto;
+}
