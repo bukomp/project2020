@@ -8,45 +8,8 @@ let loginOpen = false;
 //Display (register/login) is being reverted
 let loginRegisterSwitchState = true;
 
-const loginRegisterStyle = `
-    #loginRegisterComponent {
-      position: absolute;
-      margin: auto;
-      padding: 35px;
-      top:0;
-      bottom:0;
-      right: 0;
-      left: 0;
-      width: 60%;
-      height: fit-content;
-      box-shadow: 0px 0px 25px grey;
-    
-      background-color: #fff;
-    }
-
-    #loginRegisterComponent input, 
-    #loginRegisterComponent button {
-      display: block;
-    }
-
-    #loginRegisterClose{
-      float: right;
-    }
-
-    #loginRegisterComponent .email{
-      display: none;
-    }
-
-    #loginRegisterComponent .error{
-      color: red;
-      display: none;
-    }
-  `;
-
 const loginRegisterHTML = `
-  <style>
-    ${loginRegisterStyle}
-  </style>
+
   <div id="loginRegisterComponent">
     <button id="loginRegisterClose" onclick="closeElement()">X</button>
 
@@ -155,29 +118,12 @@ function openLoginRegisterComponent(){
   }
 }
 
-async function silentLoginOrLogout(){
+async function loginOrLogout(){
   try {
     if(!user){
-      if(localStorage.token_I_C && localStorage.token_I_C !== 'undefined'){
-        const res = (await axios({
-          method: 'post',
-          url: '/login',
-          headers: {
-            authorization: localStorage.token_I_C
-          }
-        })).data;
+      console.log('no token stored');
 
-        localStorage.setItem('token_I_C', res.token);
-        user = res.user
-
-        // Change login button to logout
-        document.getElementById('loginButton').innerText = 'Logout';
-
-      } else {
-        console.log('no token stored');
-
-        openLoginRegisterComponent();
-      }
+      openLoginRegisterComponent();
     }else{
       console.log('I deleted token');
       user = undefined;
@@ -189,5 +135,27 @@ async function silentLoginOrLogout(){
   } catch (error) {
     console.log(error);
     openLoginRegisterComponent();
+  }
+}
+
+async function trySilentLogin(){
+  try {
+  if(localStorage.token_I_C && localStorage.token_I_C !== 'undefined'){
+    const res = (await axios({
+      method: 'post',
+      url: '/login',
+      headers: {
+        authorization: localStorage.token_I_C
+      }
+    })).data;
+
+    localStorage.setItem('token_I_C', res.token);
+    user = res.user
+
+    // Change login button to logout
+    document.getElementById('loginButton').innerText = 'Logout';
+  }
+  } catch (error) {
+    console.log(error);
   }
 }

@@ -1,0 +1,32 @@
+#loginRegisterComponent {
+  position: absolute;
+  margin: auto;
+  padding: 35px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: 60%;
+  height: fit-content;
+  box-shadow: 0px 0px 25px grey;
+
+  background-color: #fff;
+}
+
+#loginRegisterComponent input,
+#loginRegisterComponent button {
+  display: block;
+}
+
+#loginRegisterClose {
+  float: right;
+}
+
+#loginRegisterComponent .email {
+  display: none;
+}
+
+#loginRegisterComponent .error {
+  color: red;
+  display: none;
+}

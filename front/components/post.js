@@ -1,5 +1,3 @@
-
-
 let posts;
 
 let postComponentSkip = 0;
@@ -24,16 +22,16 @@ async function getPosts(skip){
     });
 
     posts.forEach(post => {
-      AppendPostComponentToMain(post);
+      appendPostComponentToMain(post);
     });
 
-    return posts
+    return posts;
   } catch (error) {
     console.log(error);
   }
 }
 
-function AppendPostComponentToMain(post){
+function appendPostComponentToMain(post){
   const postHTML = /*html*/`
     <div id="${post.id}" class="postComponent">
       <img src="/post/${post.id}" style="${post.filters}"/>
