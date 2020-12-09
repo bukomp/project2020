@@ -18,7 +18,7 @@ async function getPosts(skip){
      * with prepend functionality
      * */ 
     posts = posts.sort((a,b) => {
-      return new Date(b.created_at) - new Date(a.created_at);
+      return new Date(a.created_at) - new Date(b.created_at);
     });
 
     posts.forEach(post => {
@@ -38,7 +38,7 @@ function appendPostComponentToMain(post){
       <p class="creationDateAndUser">
         ${new Date(post.created_at).toLocaleDateString()}
         <b>by</b>
-        ${post.user_id}, ${post.created_at}
+        ${post.user_id}
       </p>
     </div>
   `;

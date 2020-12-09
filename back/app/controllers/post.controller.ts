@@ -9,6 +9,7 @@ import { CONFIG } from '../utils/config';
 
 import { Router } from 'express';
 import multer from 'multer';
+import fs from 'fs';
 
 import { UserToken } from '../models/token.interfaces';
 
@@ -23,7 +24,7 @@ const storage = multer.diskStorage({
   },
 });
 
-const upload = multer({ storage: storage });
+const upload = multer({ storage });
 
 postRouter.post('/', checkToken, checkUser, upload.single('image'), async (req, res) => {
   const headers = req.headers;
@@ -34,15 +35,19 @@ postRouter.post('/', checkToken, checkUser, upload.single('image'), async (req, 
     const token = headers.authorization;
 
     const decodedToken: UserToken = tokenService.decodeToken(token);
-
+    console.log(req.file.path);
+    console.log(JSON.stringify(req.file.path));
     const post = await postService.create({
-      file_link: req.file.path,
+      file_link: JSON.stringify(req.file.path),
       filters: body.filters,
       likes: 0,
       user_id: decodedToken.userId,
     });
 
+    delete post.file_link;
+
     return res.status(200).json({
+      post,
       token: tokenService.updateToken(token),
     });
   } catch (error) {
@@ -84,14 +89,15 @@ postRouter.get('/:id', async (req, res) => {
   try {
     const imageFilePath: string | undefined = (await postService.getById(imageId))?.file_link;
 
-    if (imageFilePath) {
+    if (!imageFilePath || !fs.existsSync(imageFilePath.slice(1, -1))) {
       return res.sendStatus(404);
     }
 
-    return res.status(200).sendFile(imageFilePath);
+    return res.status(200).sendFile(imageFilePath.slice(1, -1));
   } catch (error) {
+    console.log(error);
     console.error('Error happened in /post/:id(get)');
-    res.status(500).send(error);
+    res.status(500).json({ error });
   }
 });
 

@@ -1,31 +1,103 @@
 let PostCreationComponent;
 
 let postCreationOpen = false;
+let postCreationImgSelected = false;
 
-const postCreationComponentHTML = `
+let previewImageStyle = {
+  blur: 0,
+  grayscale: 0,
+}
 
-<div id="postCreation">
-  <button id="postCreation" onclick="closeElement()">X</button>
+const postCreationComponentHTML = /*html*/`
+<div id="postCreationComponent">
+  <button id="postCreationClose" onclick="closePostCreation()">X</button>
 
-  <label class="username">Username</label>
-  <input class="username input" >
+  <img id="imgPreview" src="" alt="image preview"/>
 
-  <label class="email">Email</label>
-  <input class="email input" >
+  <label id="blur">Blur</label>
+  <input type="range" min="0" max="10" value="0" step="0.1" class="slider" id="blurRange">
 
-  <label class="password">Password</label>
-  <input class="password input" >
+  <label id="grayscale">Grayscale</label>
+  <input type="range" min="0" max="100" value="0" class="slider" id="grayscaleRange">
+  
+  <input id="imgFile" type='file' accept="image/*" onchange="readImgURL(this);" />
 
   <p class="error">Error occured</p>
-  <button id="loginRegisterSubmit" onclick="submitLoginRegister()">Submit</button>
-  <button id="loginRegisterSwitch" onclick="changeLoginRegisterSwitchState()">To Registration</button>
-
+  <button id="postCreationSubmit" onclick="sendPost()">Submit</button>
 </div>
 `;
 
 function openPostCreation(){
+  if(!postCreationOpen){
+    postCreationOpen = true;
+    const postCreation = document.createElement('div');
+    postCreation.innerHTML = postCreationComponentHTML;
+    document.getElementById('main').append(postCreation);
+    PostCreationComponent = postCreation;
+
+    const imgPreview = document.getElementById('imgPreview');
+
+    const blur = document.getElementById('blurRange');
+    blur.oninput = ()=>{
+      console.log('blur('+blur.value+'px)');
+
+      previewImageStyle.blur = blur.value;
+      imgPreview.style = 
+        'filter: blur('+previewImageStyle.blur+'px) ' + 
+        'grayscale('+previewImageStyle.grayscale+'%);';
+    };
+
+    const grayscale = document.getElementById('grayscaleRange');
+    grayscale.oninput = ()=>{
+      previewImageStyle.grayscale = grayscale.value;
+      imgPreview.style = 
+        'filter: blur('+previewImageStyle.blur+'px) ' + 
+        'grayscale('+previewImageStyle.grayscale+'%);';
+    }
+  }
+}
+
+function closePostCreation(){
+  PostCreationComponent.remove();
+  postCreationOpen = false;
+}
+
+function readImgURL(input) {
+  if (input.files && input.files[0]) {
+      const reader = new FileReader();
+
+      reader.onload = (e) => {
+        document.getElementById('imgPreview').src = e.target.result
+      };
+
+      reader.readAsDataURL(input.files[0]);
+      postCreationImgSelected = true;
+  }
+}
+
+async function sendPost(){
+  try {
+    const file = document.getElementById('imgFile').files[0];
+    const data = new FormData();
+    data.append('image', file, file.fileName);
+    data.append(
+      'filters', 'filter: blur('+previewImageStyle.blur+'px) ' + 
+      'grayscale('+previewImageStyle.grayscale+'%);'
+    );
+
+    await axios.post('/post', data, {
+      headers: {
+        'authorization': localStorage.token_I_C,
+        'Accept-Language': 'en-US,en;q=0.8',
+        'Content-Type': `multipart/form-data; boundary=${data._boundary}`,
+      }
+    });
+
+    await getPosts(0).then(listOfPosts => {posts = listOfPosts});
+
+    closePostCreation();
+  } catch (error) {
+    console.log(error);
+  }
   
-  const postElement = document.createElement('div');
-  postElement.innerHTML = postHTML;
-  document.getElementById('main').prepend(postElement);
 }

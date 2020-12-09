@@ -13,3 +13,7 @@ header {
   max-width: 608px;
   margin: auto;
 }
+
+#postCreationButton {
+  display: none;
+}

@@ -38,33 +38,22 @@ async function submitLoginRegister(){
 
   try{
 
+    let res;
     if(loginRegisterSwitchState){
-      
-        const res = (await axios.post('/login', {
+        res = (await axios.post('/login', {
           username,
           password
         })).data;
-
-        localStorage.setItem('token_I_C', res.token);
-        user = res.user;
-      
     } else {
-      
-        const res = (await axios.post('/register', {
+        res = (await axios.post('/register', {
           username,
           email,
           password
         })).data;
-
-        localStorage.setItem('token_I_C', res.token);
-        user = res.user;
-      
     }
+    saveUserAndEnablePosting(res)
 
     closeElement();
-
-    // Change login button to logout
-    document.getElementById('loginButton').innerText = 'Logout';
     
   } catch (error) {
     console.log(error.response.data.error);
@@ -131,6 +120,9 @@ async function loginOrLogout(){
 
       // Change login button to logout
       document.getElementById('loginButton').innerText = 'Login';
+      //Enable posting
+      document.getElementById('postCreationButton').style.display = 'none';
+      
     }
   } catch (error) {
     console.log(error);
@@ -149,13 +141,19 @@ async function trySilentLogin(){
       }
     })).data;
 
-    localStorage.setItem('token_I_C', res.token);
-    user = res.user
-
-    // Change login button to logout
-    document.getElementById('loginButton').innerText = 'Logout';
+    saveUserAndEnablePosting(res)
   }
   } catch (error) {
     console.log(error);
   }
+}
+
+function saveUserAndEnablePosting(res){
+  localStorage.setItem('token_I_C', res.token);
+  user = res.user;
+
+  //Enable posting
+  document.getElementById('postCreationButton').style.display = 'block';
+  // Change login button to logout
+  document.getElementById('loginButton').innerText = 'Logout';
 }

@@ -1,4 +1,6 @@
 .env
 build
 node_modules
-
+uploaded_images/*.png
+uploaded_images/*.jpg
+uploaded_images/*.jpeg

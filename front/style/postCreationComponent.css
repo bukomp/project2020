@@ -1,0 +1,33 @@
+#postCreationComponent {
+  position: absolute;
+  margin: auto;
+  padding: 35px;
+  top: 0;
+  bottom: 0;
+  right: 0;
+  left: 0;
+  width: fit-content;
+  height: fit-content;
+  box-shadow: 0px 0px 25px grey;
+
+  background-color: #fff;
+}
+
+#postCreationComponent input,
+#postCreationComponent button,
+#postCreationComponent img {
+  display: block;
+}
+
+#postCreationClose {
+  float: right;
+}
+
+#postCreationComponent .email {
+  display: none;
+}
+
+#postCreationComponent .error {
+  color: red;
+  display: none;
+}
