@@ -35,8 +35,7 @@ postRouter.post('/', checkToken, checkUser, upload.single('image'), async (req, 
     const token = headers.authorization;
 
     const decodedToken: UserToken = tokenService.decodeToken(token);
-    console.log(req.file.path);
-    console.log(JSON.stringify(req.file.path));
+
     const post = await postService.create({
       file_link: JSON.stringify(req.file.path),
       filters: body.filters,

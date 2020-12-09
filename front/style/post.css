@@ -1,0 +1,21 @@
+.postComponent {
+  overflow: hidden;
+  text-align: center;
+  margin-bottom: 2rem;
+}
+
+.postComponent img {
+  width: 404px;
+  height: 404px;
+  object-fit: cover;
+}
+
+.creationDateAndUser {
+  text-align: left;
+  width: 404px;
+  margin: 1rem auto;
+}
+
+b {
+  font-weight: bold;
+}

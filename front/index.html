@@ -2,12 +2,18 @@
 <head>
   <meta charset="utf-8">
   <title>IC</title>
+
+  <!-- Font -->
+  <link rel="preconnect" href="https://fonts.gstatic.com">
+  <link href="https://fonts.googleapis.com/css2?family=Roboto+Condensed:wght@300;400;700&display=swap" rel="stylesheet">
+
   <link rel="stylesheet" href="style/reset.css">
   <link rel="stylesheet" href="style/main.css">
 
   <!-- Components' style -->
   <link rel="stylesheet" href="style/loginComponent.css">
   <link rel="stylesheet" href="style/postCreationComponent.css">
+  <link rel="stylesheet" href="style/post.css">
 
 
   <script src="https://cdn.jsdelivr.net/npm/axios/dist/axios.min.js"></script>
@@ -16,8 +22,9 @@
 <body>
   <header>
     <h1>I<span style="color: gray;">nstagram</span >C<span style="color: gray;">opy</span></h1>
-    <button id="loginButton" onclick="loginOrLogout()">Login</button>
     <button id="postCreationButton" onclick="openPostCreation()">Create new Post</button>
+    <button id="loginButton" onclick="loginOrLogout()">Login</button>
+
   </header>
   <div id="main" class="center">
 
@@ -33,6 +40,7 @@
 <script src="components/post.js"></script>
 <script src="components/createPost.js"></script>
 
+<script src="script/bottomScrollUpdate.js"></script>
 <script src="script/main.js"></script>
 
 </html>

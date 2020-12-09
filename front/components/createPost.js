@@ -9,7 +9,7 @@ let previewImageStyle = {
 }
 
 const postCreationComponentHTML = /*html*/`
-<div id="postCreationComponent">
+<div id="postCreationComponent" class="dialog">
   <button id="postCreationClose" onclick="closePostCreation()">X</button>
 
   <img id="imgPreview" src="" alt="image preview"/>
@@ -39,8 +39,6 @@ function openPostCreation(){
 
     const blur = document.getElementById('blurRange');
     blur.oninput = ()=>{
-      console.log('blur('+blur.value+'px)');
-
       previewImageStyle.blur = blur.value;
       imgPreview.style = 
         'filter: blur('+previewImageStyle.blur+'px) ' + 
@@ -93,7 +91,7 @@ async function sendPost(){
       }
     });
 
-    await getPosts(0).then(listOfPosts => {posts = listOfPosts});
+    await getPosts(0, true);
 
     closePostCreation();
   } catch (error) {

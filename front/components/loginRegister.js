@@ -8,9 +8,9 @@ let loginOpen = false;
 //Display (register/login) is being reverted
 let loginRegisterSwitchState = true;
 
-const loginRegisterHTML = `
+const loginRegisterHTML = /*html */`
 
-  <div id="loginRegisterComponent">
+  <div id="loginRegisterComponent"  class="dialog">
     <button id="loginRegisterClose" onclick="closeElement()">X</button>
 
     <label class="username">Username</label>
@@ -20,7 +20,7 @@ const loginRegisterHTML = `
     <input class="email input" >
 
     <label class="password">Password</label>
-    <input class="password input" >
+    <input type="password"class="password input" >
 
     <p class="error">Error occured</p>
     <button id="loginRegisterSubmit" onclick="submitLoginRegister()">Submit</button>

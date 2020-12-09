@@ -34,6 +34,7 @@ export async function get(select: number, skip: number): Promise<Post[] | undefi
     const query = await db.query(`
     SELECT *
     FROM post
+    ORDER BY created_at DESC
     LIMIT ${skip}, ${select};
   `);
 

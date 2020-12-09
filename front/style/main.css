@@ -1,12 +1,23 @@
-#main {
-  min-height: calc(100vh - 100px);
+html,
+button {
+  font-family: "Roboto Condensed", sans-serif;
+}
 
-  background-color: green;
+#main {
+  padding-top: 60px;
+  min-height: calc(100vh - 100px);
+  box-shadow: black 0px 134px 47px 5px;
 }
 
 header {
   height: 100px;
-  padding: 0 30%;
+  padding: 0 10%;
+  display: flex;
+}
+
+header h1 {
+  margin: auto auto auto 0;
+  font-size: 3.6rem;
 }
 
 .center {
@@ -14,6 +25,29 @@ header {
   margin: auto;
 }
 
+footer {
+  font-size: 20px;
+  font-weight: 300;
+  text-align: center;
+  margin: 0;
+  padding-bottom: 2rem;
+}
+
 #postCreationButton {
   display: none;
+}
+
+button {
+  background-color: rgba(0, 0, 0, 0);
+  border: none;
+  color: black;
+  text-align: center;
+  text-decoration: none;
+  font-size: 18px;
+  height: fit-content;
+  margin: auto 0;
+}
+
+.dialog {
+  box-shadow: 0 0 998px 222px;
 }
