@@ -11,4 +11,5 @@ export interface ServerConfig {
   SECRET: string;
   TOKEN_ALIVE_HOURS: number;
   PATH_TO_STORE_IMAGES: string;
+  PATH_TO_STATIC: string;
 }

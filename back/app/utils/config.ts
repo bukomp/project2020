@@ -9,4 +9,5 @@ export const CONFIG: ServerConfig = {
   SECRET: process.env.SECRET,
   TOKEN_ALIVE_HOURS: +process.env.TOKEN_ALIVE_HOURS,
   PATH_TO_STORE_IMAGES: process.env.PATH_TO_STORE_IMAGES,
+  PATH_TO_STATIC: process.env.PATH_TO_STATIC,
 };
