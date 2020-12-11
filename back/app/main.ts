@@ -38,7 +38,7 @@ async function startServer(): Promise<void> {
   });
 
   if (CONFIG.NODE_ENV === 'development') {
-    app.use(express.static(__dirname + '/../../front'));
+    app.use(express.static(CONFIG.PATH_TO_STATIC || __dirname + '/../../front'));
   } else {
     app.use(express.static(CONFIG.PATH_TO_STATIC));
   }
